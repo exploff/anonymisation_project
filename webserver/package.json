@@ -1,0 +1,31 @@
+{
+    "name": "webserver-anonymisation",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "express": "express",
+        "monolith": "node monolith.js",
+        "release": "standard-version",
+        "ngrok": "ngrok http 3000"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.1",
+        "cookie-parser": "^1.4.6",
+        "ejs": "~2.6.1",
+        "express": "~4.16.1",
+        "mqtt": "^4.3.7",
+        "ngrok": "^4.3.3",
+        "socket.io": "^4.5.2",
+        "swagger-jsdoc": "^6.2.5"
+    },
+    "devDependencies": {
+        "cz-conventional-changelog": "^3.3.0",
+        "express-generator": "^4.16.1",
+        "standard-version": "^9.5.0"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
+}
