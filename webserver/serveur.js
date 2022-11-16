@@ -1,3 +1,4 @@
+const path = require('./path.js');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -7,7 +8,20 @@ require('dotenv').config({path: '../.env'});
 app.use(bodyParser.text());
 app.use(express.json());
 
-app.get('/info', (req, res) => {
+function getMysqlConnection() {
+  var mysql = require('mysql');
+
+  var con = mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
+  });
+
+  return con;
+}
+
+app.get(path.INFO, (req, res) => {
   console.log("Request /api from : " + req.socket.remoteAddress);
   try {
     let result = {
@@ -23,20 +37,22 @@ app.get('/info', (req, res) => {
   }
 });
 
-function getMysqlConnection() {
-  var mysql = require('mysql');
+app.get(path.INFO_CHECK_CONNECTION, (req, res) => {
+  try {
+    let con = getMysqlConnection();
+    con.connect(function(err) {
+      if (err) {
+        res.status(400).send(err.message);
+      } else {
+        res.status(200).send("Connection to database is ready");
+      }
+    });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
 
-  var con = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
-  });
-
-  return con;
-}
-
-app.get('/info/tables', (req, res) => {
+app.get(path.INFO_TABLES, (req, res) => {
     
   var connection = getMysqlConnection();
   let sendResult = {
@@ -66,7 +82,7 @@ app.get('/info/tables', (req, res) => {
   })
 });
 
-app.get('/info/:table_name', (req, res) => {
+app.get(path.INFO_TABLE, (req, res) => {
   var connection = getMysqlConnection();
 
   let sendResult = {
@@ -100,7 +116,7 @@ app.get('/info/:table_name', (req, res) => {
   }
 })
 
-app.get('/data/:table_name/:limit', (req, res) => {
+app.get(path.DATA_TABLE, (req, res) => {
   var connection = getMysqlConnection();
 
   let sendResult = {
@@ -135,10 +151,6 @@ app.get('/data/:table_name/:limit', (req, res) => {
   }
 
 })
-
-
-
-
 
 app.listen(3000, () => {
   console.log('Server started');

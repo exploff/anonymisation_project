@@ -17,10 +17,9 @@ def upload_dump():
         # Import the dump
         load_dotenv()       
 
-        command = ("mysql -u" + str(os.getenv('USER')) + " -p" + str(os.getenv('PASSWORD')) + " " + str(os.getenv('DATABASE')) + " < " + str(os.getenv('DEPLOY_FOLDER')) + str(os.getenv('FILE_NAME'))).split()
-        print(command)
-        p = subprocess.Popen(command, stdout=subprocess.PIPE)
-        p.communicate()
+        destFile = os.getenv('DEPLOY_FOLDER') + os.getenv('FILE_NAME')
+        os.popoen("docker exec -it db mysql source %s" % (os.getenv('USER'), os.getenv('PASSWORD'), os.getenv('DATABASE'), destFile))
+
 
         # connection = db.mysql_connection()
         # cursor = connection.cursor()
@@ -32,5 +31,8 @@ def upload_dump():
 
 def isMysql():
     return True
+
+
+
 
 upload_dump()

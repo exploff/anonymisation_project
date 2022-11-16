@@ -3,14 +3,14 @@ from mysql.connector import Error
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
 
 def mysql_connection():
+    load_dotenv()
     connectionAttribute = {}
-    connectionAttribute['db'] = "db"
-    connectionAttribute['host'] = "localhost"
-    connectionAttribute['user'] = "user"
-    connectionAttribute['password'] = "password"
+    connectionAttribute['db'] = os.getenv('DATABASE')
+    connectionAttribute['host'] = os.getenv('HOST')
+    connectionAttribute['user'] = os.getenv('USER')
+    connectionAttribute['password'] = os.getenv('PASSWORD')
 
     # Connection Mysql
     try:
@@ -28,13 +28,5 @@ def mysql_connection():
         print("Error while connecting to MySQL", e)
 
     # Connection PostGres
-
-# attribute = {}
-# attribute['db'] = str(os.getenv('HOST'))
-# attribute['host'] = str(os.getenv('DATABASE'))
-# attribute['user'] = str(os.getenv('USER'))
-# attribute['password'] = str(os.getenv('PASSWORD'))
-
-
 
 # mysql_connection()
