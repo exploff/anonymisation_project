@@ -21,6 +21,12 @@ function getMysqlConnection() {
   return con;
 }
 
+app.post(path.UPLOAD_FILE, (req, res) => {
+  //TODO
+  console.log(req.body);
+  res.send('ok');
+});
+
 app.get(path.INFO, (req, res) => {
   console.log("Request /api from : " + req.socket.remoteAddress);
   try {
