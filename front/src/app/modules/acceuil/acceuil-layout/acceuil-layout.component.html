@@ -1,4 +1,54 @@
+
 <div>
-  <button [routerLink]="['/automatique']">Automatique</button>
-  <button [routerLink]="['/manuel']">Manuel</button>
+  <mat-card>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
+    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
+    explicabo.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
+    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
+    explicabo.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
+    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
+    explicabo.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
+    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
+    explicabo.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
+    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
+    explicabo.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
+    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
+    explicabo.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
+    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
+    explicabo.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
+    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
+    explicabo.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
+    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
+    explicabo.
+  </mat-card>
+  <form [formGroup]="fileFormGroup" (ngSubmit)="onSubmit()">
+    <div class="fileInput">
+      <label>Fichier à Anonymiser :</label>
+      <div>
+        <label class="fakeButton ">
+          Parcourir
+        </label>
+        <input type="file" id="img" name="img" accept=".sql" [(ngModel)]="sqlfile" formControlName="fileFormControl" #fileInput>
+        <span *ngIf="sqlfile">{{ sqlfile.split("\\")[sqlfile.split("\\").length-1]}}</span>
+        <span *ngIf="!sqlfile">Aucun fichier séléctionné.</span>
+      </div>
+    </div>
+    <div>
+      <button (click)="onSubmit('auto')" type="submit" mat-stroked-button color="primary" >
+        Automatique
+      </button>
+      <button (click)="onSubmit('man')" type="submit" mat-stroked-button color="primary" >
+        Manuel
+      </button>
+    </div>
+  </form>
 </div>
+
