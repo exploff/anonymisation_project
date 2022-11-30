@@ -1,6 +1,8 @@
 const path = require('./path.js');
 const express = require('express');
 const app = express();
+var path = require('path');
+var fs = require('fs');
 const bodyParser = require('body-parser');
 
 require('dotenv').config({path: '../.env'});
@@ -22,9 +24,26 @@ function getMysqlConnection() {
 }
 
 app.post(path.UPLOAD_FILE, (req, res) => {
-  //TODO
-  console.log(req.body);
-  res.send('ok');
+  console.log("Call to " + path.UPLOAD_FILE);
+  console.log(req.files);
+  var blob = req.params.file;
+  if (blob) {
+    if (blob instanceof Blob) {
+      var file = new File(Blob, "database.sql");
+      console.log(file.size);
+      file.mv('../deploy/' + file.name);
+      res.status(200).send({
+        status: true,
+        message: 'File is uploaded',
+        data: {
+            name: avatar.name,
+            mimetype: avatar.mimetype,
+            size: avatar.size
+        }
+      });
+    }
+  }
+  res.status(400).send();
 });
 
 app.get(path.INFO, (req, res) => {

@@ -11,7 +11,7 @@ const UPLOAD_FILE = "/upload/file";
 /**
  * Check if the connection to the database is ready
  */
-const INFO_CHECK_CONNECTION = "/info/database/check";
+const INFO_CHECK_CONNECTION = INFO + "/database/check";
 
 /**
  * {
