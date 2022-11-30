@@ -1,0 +1,11 @@
+<div class="column-info">
+  <div class="column-title">
+    <h2>Table : {{ table?.table }}</h2>
+  </div>
+  <div class="column-content">
+    <div *ngFor="let column of table?.columns">
+      <p>{{ column.name }}</p>
+      <p>{{ column.type }}</p>
+    </div>
+  </div>
+</div>
