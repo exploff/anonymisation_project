@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+import {HttpClient} from '@angular/common/http'
+
 @Component({
   selector: 'app-acceuil_layout',
   templateUrl: './acceuil-layout.component.html',
@@ -14,7 +16,7 @@ export class AcceuilLayoutComponent implements OnInit {
   fileFormGroup = new FormGroup({
    fileFormControl: new FormControl('', [Validators.required])
   })
-  constructor() { }
+  constructor(private httpClient:HttpClient) { }
 
   ngOnInit() {
   }
@@ -28,6 +30,12 @@ export class AcceuilLayoutComponent implements OnInit {
         this.changeFile(file).then((base64)=> {
             let fileBlob = new Blob([base64],{type:'text/plain'});
             //post request
+            let formData = new FormData();
+            formData.append("file", fileBlob);
+            this.httpClient.post("http://localhost:3000/upload/file",formData).subscribe((reponse)=>{
+              console.log(reponse);
+            })
+
             console.log(fileBlob)
         });
       }
