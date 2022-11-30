@@ -24,7 +24,8 @@ function initializeConnection(config) {
           console.log("Lost connection. Reconnecting...");
           initializeConnection(connection.config);
         } else if (error.fatal) {
-          throw error;
+          console.log(error);
+          return null;
         }
       }
     });
@@ -84,12 +85,15 @@ app.get(varPath.INFO, (req, res) => {
 app.get(varPath.INFO_CHECK_CONNECTION, (req, res) => {
   try {
     let connection = getMysqlConnection();
-    //TODO : recuperer info
-    connection.query("SHOW VARIABLES LIKE 'version'", function (err, result, fields) {
-      if (err) throw err;
-      res.setHeader('content-type', 'application/json');
-      res.status(200).send(result);
-    });
+    if (connection.state !== 'disconnected') {
+      connection.query("SHOW VARIABLES LIKE 'version'", function (err, result, fields) {
+        if (err) throw err;
+        res.setHeader('content-type', 'application/json');
+        res.status(200).send(result);
+      });
+    } else {
+      res.status(400).send("No connection");
+    }
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -101,36 +105,12 @@ app.get(varPath.INFO_TABLES, (req, res) => {
   let sendResult = {
     tables: []
   }
-
-  connection.query("SHOW TABLES", function (err, result, fields) {
-    try {
-      if (err) { throw err };
-      sendResult.tables = result.map((item) => {
-        return item.Tables_in_db;
-      })
-      res.setHeader('content-type', 'application/json');
-      res.status(200).send(sendResult);
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  });
-});
-
-app.get(varPath.INFO_TABLE, (req, res) => {
-  var connection = getMysqlConnection();
-
-  let sendResult = {
-    table: "",
-    columns: []
-  }
-  var table_name = req.params.table_name;
-  if (table_name) {
-    sendResult.table = table_name;
-    connection.query("SHOW COLUMNS FROM " + table_name, function (err, result, fields) {
+  if (connection.state !== 'disconnected') {
+    connection.query("SHOW TABLES", function (err, result, fields) {
       try {
         if (err) { throw err };
-        sendResult.columns = result.map((item) => {
-          return { "name": item.Field, "type": item.Type};
+        sendResult.tables = result.map((item) => {
+          return item.Tables_in_db;
         })
         res.setHeader('content-type', 'application/json');
         res.status(200).send(sendResult);
@@ -139,39 +119,72 @@ app.get(varPath.INFO_TABLE, (req, res) => {
       }
     });
   } else {
-    res.status(400).send("Missing table name");
+    res.status(400).send("No connection");
+  }
+});
+
+app.get(varPath.INFO_TABLE, (req, res) => {
+  var connection = getMysqlConnection();
+  if (connection.state !== 'disconnected') {
+    let sendResult = {
+      table: "",
+      columns: []
+    }
+    var table_name = req.params.table_name;
+    if (table_name) {
+      sendResult.table = table_name;
+      connection.query("SHOW COLUMNS FROM " + table_name, function (err, result, fields) {
+        try {
+          if (err) { throw err };
+          sendResult.columns = result.map((item) => {
+            return { "name": item.Field, "type": item.Type};
+          })
+          res.setHeader('content-type', 'application/json');
+          res.status(200).send(sendResult);
+        } catch (error) {
+          res.status(400).send(error.message);
+        }
+      });
+    } else {
+      res.status(400).send("Missing table name");
+    }
+  } else {
+    res.status(400).send("No connection");
   }
 })
 
 app.get(varPath.DATA_TABLE, (req, res) => {
   var connection = getMysqlConnection();
+  if (connection.state !== 'disconnected') {
 
-  let sendResult = {
-    table: "",
-    data: []
-  }
-  var table_name = req.params.table_name;
-  var limit = req.params.limit;
-  if (table_name && limit) {
-    sendResult.table = table_name;
-    
-    connection.query("SELECT * FROM " + table_name + " LIMIT " + limit, function (err, result, fields) {
-      try {
-        if (err) { throw err };
-        sendResult.data = result.map((item) => {
-          return item;
-        })
-        console.log(sendResult);
-        res.setHeader('content-type', 'application/json');
-        res.status(200).send(sendResult);
-      } catch (error) {
-        res.status(400).send(error.message);
-      }
-    });
+    let sendResult = {
+      table: "",
+      data: []
+    }
+    var table_name = req.params.table_name;
+    var limit = req.params.limit;
+    if (table_name && limit) {
+      sendResult.table = table_name;
+      
+      connection.query("SELECT * FROM " + table_name + " LIMIT " + limit, function (err, result, fields) {
+        try {
+          if (err) { throw err };
+          sendResult.data = result.map((item) => {
+            return item;
+          })
+          console.log(sendResult);
+          res.setHeader('content-type', 'application/json');
+          res.status(200).send(sendResult);
+        } catch (error) {
+          res.status(400).send(error.message);
+        }
+      });
+    } else {
+      res.status(400).send("Missing table name or limit");
+    }
   } else {
-    res.status(400).send("Missing table name or limit");
+    res.status(400).send("No connection");
   }
-
 })
 
 app.listen(3000, () => {
