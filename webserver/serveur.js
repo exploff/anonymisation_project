@@ -1,5 +1,6 @@
 const varPath = require('./path.js');
 const express = require('express');
+const cors = require('cors')
 const app = express();
 var path = require('path');
 var fs = require('fs');
@@ -9,6 +10,7 @@ require('dotenv').config({path: '../.env'});
 
 app.use(bodyParser.text());
 app.use(express.json());
+app.use(cors());
 
 function getMysqlConnection() {
   var mysql = require('mysql');
