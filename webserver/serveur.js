@@ -1,7 +1,9 @@
 const varPath = require('./path.js');
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
 const app = express();
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart({ uploadDir: './uploads' });
 var path = require('path');
 var fs = require('fs');
 const bodyParser = require('body-parser');
@@ -25,27 +27,20 @@ function getMysqlConnection() {
   return con;
 }
 
-app.post(varPath.UPLOAD_FILE, (req, res) => {
+app.post(varPath.UPLOAD_FILE, multipartMiddleware, (req, res) => {
   console.log("Call to " + varPath.UPLOAD_FILE);
-  console.log(req.files);
-  var blob = req.params.file;
-  if (blob) {
-    if (blob instanceof Blob) {
-      var file = new File(Blob, "database.sql");
-      console.log(file.size);
-      file.mv('../deploy/' + file.name);
-      res.status(200).send({
-        status: true,
-        message: 'File is uploaded',
-        data: {
-            name: avatar.name,
-            mimetype: avatar.mimetype,
-            size: avatar.size
-        }
-      });
-    }
+  var file = req.files.file;
+  if (file) {
+    fs.rename(file.path, '../deploy/' + file.name, function(error) {
+      if (error) {
+        res.status(500).send({ error: 'Error renaming file' });
+      } else {
+        res.status(200).send({ success: true });
+      }
+    });
+  } else {
+    res.status(400).send({ error: 'No file found' });
   }
-  res.status(400).send();
 });
 
 app.get(varPath.INFO, (req, res) => {

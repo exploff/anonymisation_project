@@ -12,6 +12,7 @@ export class AcceuilLayoutComponent implements OnInit {
 
   sqlfile!:string
   @ViewChild('fileInput')fileInput!:ElementRef;
+  uploadedFile!: File;
 
   fileFormGroup = new FormGroup({
    fileFormControl: new FormControl('', [Validators.required])
@@ -21,37 +22,20 @@ export class AcceuilLayoutComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit(value?:string){
-    if(value){
-      console.log(this.fileInput.nativeElement.files);
-      if(this.fileInput.nativeElement.files){
-        let file:Blob = this.fileInput.nativeElement.files[0]
 
-        this.changeFile(file).then((base64)=> {
-            let fileBlob = new Blob([base64],{type:'text/plain'});
-            //post request
-            let formData = new FormData();
-            formData.append("file", fileBlob);
-            this.httpClient.post("http://localhost:3000/upload/file",formData).subscribe((reponse)=>{
-              console.log(reponse);
-            })
-
-            console.log(fileBlob)
-        });
-      }
-    }
-
+  fileChange(element: any){
+    this.uploadedFile = element.target.files[0];
   }
 
-  changeFile(file:Blob): Promise<any> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
+  onSubmit(value?:string){
+    if(value){
+      let formData = new FormData();
+      formData.append("file", this.uploadedFile, this.uploadedFile.name);
 
-        reader.onload = () => resolve(reader.result);
-
-        reader.onerror = error => reject(error);
-    });
+      this.httpClient.post("http://localhost:3000/upload/file",formData).subscribe((reponse)=>{
+        console.log(reponse);
+      })
+    }
+  }
 }
 
-}

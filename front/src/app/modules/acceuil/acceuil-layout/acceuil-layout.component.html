@@ -36,7 +36,7 @@
         <label class="fakeButton ">
           Parcourir
         </label>
-        <input type="file" id="img" name="img" accept=".sql" [(ngModel)]="sqlfile" formControlName="fileFormControl" #fileInput>
+        <input type="file" (change)="fileChange($event)" id="img" name="img" accept=".sql" [(ngModel)]="sqlfile" formControlName="fileFormControl" #fileInput>
         <span *ngIf="sqlfile">{{ sqlfile.split("\\")[sqlfile.split("\\").length-1]}}</span>
         <span *ngIf="!sqlfile">Aucun fichier séléctionné.</span>
       </div>
