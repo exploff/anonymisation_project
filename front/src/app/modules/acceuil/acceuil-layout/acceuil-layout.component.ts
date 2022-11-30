@@ -1,6 +1,7 @@
 import { HttpService } from './../../../shared/services/http.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-acceuil_layout',
@@ -16,7 +17,7 @@ export class AcceuilLayoutComponent implements OnInit {
   fileFormGroup = new FormGroup({
    fileFormControl: new FormControl('', [Validators.required])
   })
-  constructor(private httpService:HttpService) { }
+  constructor(private httpService:HttpService,private router:Router) { }
 
   ngOnInit() {
   }
@@ -29,8 +30,10 @@ export class AcceuilLayoutComponent implements OnInit {
   onSubmit(value?:string){
     if(value){
       this.httpService.uploadfile(this.uploadedFile).subscribe(res =>{
-        console.log(res);
-
+        if(res.success){
+          console.log(value);
+          this.router.navigateByUrl(`/${value}`)
+        }
       })
     }
   }

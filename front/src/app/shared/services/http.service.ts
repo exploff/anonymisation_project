@@ -9,9 +9,14 @@ export class HttpService {
 
 constructor(private httpClient:HttpClient) { }
 
-uploadfile(file:File):Observable<Object>{
+uploadfile(file:File):Observable<Response>{
   let formData = new FormData();
   formData.append("file", file, file.name);
-  return this.httpClient.post("http://localhost:3000/upload/file",formData)
+  return this.httpClient.post<Response>("http://localhost:3000/upload/file",formData)
 }
+
+
+}
+export interface Response{
+  success:string
 }
