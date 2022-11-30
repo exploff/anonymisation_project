@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Table } from 'src/app/shared/models/Table';
+import { DataTable } from 'src/app/shared/models/DataTable';
 
 @Component({
   selector: 'app-tables-navbar',
@@ -14,7 +15,7 @@ export class TablesNavbarComponent implements OnInit {
 
   tables!: Tables;
 
-  dataTable!: Observable<any>;
+  dataTable!: Observable<DataTable>;
   table!: Observable<Table>;
 
   tableActive!: string;
@@ -33,7 +34,7 @@ export class TablesNavbarComponent implements OnInit {
     this.tableActive = table;
 
     this.table = this.httpService.infoTable(table);
-    this.dataTable = this.httpService.dataTable(table, 2);
+    this.dataTable = this.httpService.dataTable(table, 5);
   }
 
 }

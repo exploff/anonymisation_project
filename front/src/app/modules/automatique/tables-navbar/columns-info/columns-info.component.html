@@ -3,9 +3,14 @@
     <h2>Table : {{ table?.table }}</h2>
   </div>
   <div class="column-content">
-    <div *ngFor="let column of table?.columns">
-      <p>{{ column.name }}</p>
-      <p>{{ column.type }}</p>
+    <div class="column" *ngFor="let column of table?.columns">
+      <div class="info">
+        <p>{{ column.name }}</p>
+        <p>{{ column.type }}</p>
+      </div>
+      <div class="data" *ngFor="let data of dataTable?.data">
+        {{ data[column.name] }}
+      </div>
     </div>
   </div>
 </div>

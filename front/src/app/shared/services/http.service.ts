@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DataTable } from '../models/DataTable';
 import { ResponseSuccess } from '../models/ResponseSuccess';
 import { Table } from '../models/Table';
 import { Tables } from '../models/Tables';
@@ -27,8 +28,8 @@ export class HttpService {
     return this.httpClient.get<Table>("http://localhost:3000/info/"+table);
   }
 
-  dataTable(table:string, limit:number = 2):Observable<any> {
-    return this.httpClient.get<any>("http://localhost:3000/data/"+table+"/"+limit);
+  dataTable(table:string, limit:number = 2):Observable<DataTable> {
+    return this.httpClient.get<DataTable>("http://localhost:3000/data/"+table+"/"+limit);
   }
 }
 

@@ -4,5 +4,5 @@
       {{ table }}
     </div>
   </div>
-  <app-columns-info *ngIf="table != null" [table]="table | async"></app-columns-info>
+  <app-columns-info *ngIf="table != null" [dataTable]="dataTable | async" [table]="table | async"></app-columns-info>
 </div>
