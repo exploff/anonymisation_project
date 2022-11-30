@@ -84,11 +84,12 @@ app.get(varPath.INFO, (req, res) => {
 app.get(varPath.INFO_CHECK_CONNECTION, (req, res) => {
   try {
     let connection = getMysqlConnection();
-    if (connection) {
-      res.status(400).send("Connection to the database is not ready");
-    } else {
-      res.status(200).send("Connection to database is ready");
-    }
+    //TODO : recuperer info
+    connection.query("SHOW VARIABLES LIKE 'version'", function (err, result, fields) {
+      if (err) throw err;
+      res.setHeader('content-type', 'application/json');
+      res.status(200).send(result);
+    });
   } catch (error) {
     res.status(400).send(error.message);
   }
