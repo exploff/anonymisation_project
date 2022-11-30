@@ -1,4 +1,4 @@
-const path = require('./path.js');
+const varPath = require('./path.js');
 const express = require('express');
 const app = express();
 var path = require('path');
@@ -23,8 +23,8 @@ function getMysqlConnection() {
   return con;
 }
 
-app.post(path.UPLOAD_FILE, (req, res) => {
-  console.log("Call to " + path.UPLOAD_FILE);
+app.post(varPath.UPLOAD_FILE, (req, res) => {
+  console.log("Call to " + varPath.UPLOAD_FILE);
   console.log(req.files);
   var blob = req.params.file;
   if (blob) {
@@ -46,7 +46,7 @@ app.post(path.UPLOAD_FILE, (req, res) => {
   res.status(400).send();
 });
 
-app.get(path.INFO, (req, res) => {
+app.get(varPath.INFO, (req, res) => {
   console.log("Request /api from : " + req.socket.remoteAddress);
   try {
     let result = {
@@ -62,7 +62,7 @@ app.get(path.INFO, (req, res) => {
   }
 });
 
-app.get(path.INFO_CHECK_CONNECTION, (req, res) => {
+app.get(varPath.INFO_CHECK_CONNECTION, (req, res) => {
   try {
     let con = getMysqlConnection();
     con.connect(function(err) {
@@ -77,7 +77,7 @@ app.get(path.INFO_CHECK_CONNECTION, (req, res) => {
   }
 })
 
-app.get(path.INFO_TABLES, (req, res) => {
+app.get(varPath.INFO_TABLES, (req, res) => {
     
   var connection = getMysqlConnection();
   let sendResult = {
@@ -107,7 +107,7 @@ app.get(path.INFO_TABLES, (req, res) => {
   })
 });
 
-app.get(path.INFO_TABLE, (req, res) => {
+app.get(varPath.INFO_TABLE, (req, res) => {
   var connection = getMysqlConnection();
 
   let sendResult = {
@@ -141,7 +141,7 @@ app.get(path.INFO_TABLE, (req, res) => {
   }
 })
 
-app.get(path.DATA_TABLE, (req, res) => {
+app.get(varPath.DATA_TABLE, (req, res) => {
   var connection = getMysqlConnection();
 
   let sendResult = {
