@@ -7,6 +7,7 @@
       <div class="info">
         <p>{{ column.name }}</p>
         <p>{{ column.type }}</p>
+        <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="column.selected" (ngModelChange)="updateSelected(column.name)"></mat-checkbox>
       </div>
       <div class="data" *ngFor="let data of dataTable?.data">
         {{ data[column.name] }}

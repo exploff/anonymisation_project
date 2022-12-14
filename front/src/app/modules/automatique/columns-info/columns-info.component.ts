@@ -12,9 +12,20 @@ export class ColumnsInfoComponent implements OnInit {
   @Input()table!: Table | null;
   @Input()dataTable!: DataTable | null;
 
+  @Input()columnSelected!: Array<string>;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  updateSelected(columnName: string) {
+    if (this.columnSelected.includes(columnName)) {
+      this.columnSelected = this.columnSelected.filter((column) => column != columnName);
+    } else {
+      this.columnSelected.push(columnName);
+    }
+    console.log(this.columnSelected);
   }
 
 }

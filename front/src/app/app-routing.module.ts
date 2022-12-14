@@ -3,6 +3,7 @@ import { ManuelLayoutComponent } from './modules/manuel/manuel-layout/manuel-lay
 import { AutomatiqueLayoutComponent } from './modules/automatique/automatique-layout/automatique-layout.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { TablesResolver } from './shared/resolvers/tables.resolver';
 
 const routes: Routes = [
 
@@ -14,6 +15,9 @@ const routes: Routes = [
   {
     path: 'automatique',
     component:AutomatiqueLayoutComponent,
+    resolve: {
+      tables: TablesResolver
+    },
     loadChildren: () => import('./modules/automatique/automatique.module').then(m => m.AutomatiqueModule)
   },
   {

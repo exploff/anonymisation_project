@@ -1,0 +1,14 @@
+<form>
+    <mat-card class="col">
+        <label id="label-type-anonymisation"
+            class="d-flex justify-content-center">Choisir un type d'anonymisation</label>
+        <mat-radio-group
+            class="row justify-content-evenly"
+            name="typeAnonymisation"
+            [(ngModel)]="typeAnonymisationSelected"
+            aria-labelledby="label-type-anonymisation">
+            <mat-radio-button *ngFor="let type of typeAnonymisation" [value]="type"> {{ type }}</mat-radio-button>
+        </mat-radio-group>
+    </mat-card>
+    <button mat-raised-button (click)="submit()" [disabled]="columnSelected == undefined || columnSelected.length > 0">Valider</button>
+</form>

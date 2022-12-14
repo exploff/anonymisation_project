@@ -1,8 +1,0 @@
-<div class="content">
-  <div class="navbar-tables" style="overflow-y: scroll;">
-    <div (click)="changeTable(table)" *ngFor="let table of tables.tables" [ngClass]="tableActive == table ? 'active': ''">
-      {{ table }}
-    </div>
-  </div>
-  <app-columns-info *ngIf="table != null" [dataTable]="dataTable | async" [table]="table | async"></app-columns-info>
-</div>
