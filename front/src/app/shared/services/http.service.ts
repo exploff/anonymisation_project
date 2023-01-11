@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AnonymisationAutomatique } from '../models/AnonymisationAutomatique';
 import { DataTable } from '../models/DataTable';
-import { ResponseSuccess } from '../models/ResponseSuccess';
+import { Response } from '../models/Response';
 import { Table } from '../models/Table';
 import { Tables } from '../models/Tables';
 
@@ -13,10 +14,10 @@ export class HttpService {
 
   constructor(private httpClient:HttpClient) { }
 
-  uploadfile(file:File):Observable<ResponseSuccess>{
+  uploadfile(file:File):Observable<Response>{
     let formData = new FormData();
     formData.append("file", file, file.name);
-    return this.httpClient.post<ResponseSuccess>("http://localhost:3000/upload/file",formData)
+    return this.httpClient.post<Response>("http://localhost:3000/upload/file",formData)
   }
 
   infoTables():Observable<Tables> {
@@ -29,7 +30,11 @@ export class HttpService {
   }
 
   dataTable(table:string, limit:number = 2):Observable<DataTable> {
-    return this.httpClient.get<DataTable>("http://localhost:3000/data/"+table+"/"+limit);
+    return this.httpClient.get<DataTable>("http://localhost:3000/info/data/"+table+"/"+limit);
+  }
+
+  formAnonymisationAutomatique(anonymisationForm:AnonymisationAutomatique):Observable<Response> {
+    return this.httpClient.post<Response>("http://localhost:3000/form/anonymisation/automatique/suppression", anonymisationForm);
   }
 }
 

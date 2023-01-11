@@ -1,5 +1,6 @@
 <form>
-    <mat-card class="col">
+    <div class="row">
+      <mat-card class="col w-100">
         <label id="label-type-anonymisation"
             class="d-flex justify-content-center">Choisir un type d'anonymisation</label>
         <mat-radio-group
@@ -9,6 +10,26 @@
             aria-labelledby="label-type-anonymisation">
             <mat-radio-button *ngFor="let type of typeAnonymisation" [value]="type"> {{ type }}</mat-radio-button>
         </mat-radio-group>
-    </mat-card>
-    <button mat-raised-button (click)="submit()" [disabled]="columnSelected == undefined || columnSelected.length > 0">Valider</button>
+      </mat-card>
+    </div>
+
+
+    <div class="row mt-5 justify-content-evenly align-items-center">
+      <div class="col">
+        <button mat-raised-button (click)="submit()" [disabled]="disableForm()">Valider</button>
+      </div>
+      <mat-card class="col" *ngIf="showTypeRandomisation()">
+          <label id="label-item-randomisation"
+              class="d-flex justify-content-center">Type de randomisation</label>
+          <mat-radio-group
+              class="col justify-content-evenly"
+              name="typeRandomisation"
+              [(ngModel)]="typeRandomisationSelected"
+              aria-labelledby="label-item-randomisation">
+              <mat-radio-button *ngFor="let type of typeRandomisation" [value]="type"> {{ type }}</mat-radio-button>
+          </mat-radio-group>
+      </mat-card>
+
+    </div>
+
 </form>

@@ -11,7 +11,7 @@ const UPLOAD_FILE = "/upload/file";
 /**
  * Check if the connection to the database is ready
  */
-const INFO_CHECK_CONNECTION = INFO + "/database/check";
+const INFO_CHECK_CONNECTION = "/database/check";
 
 /**
  * {
@@ -21,7 +21,7 @@ const INFO_CHECK_CONNECTION = INFO + "/database/check";
  *    ]
  * }
  */
-const INFO_TABLES = INFO + "/tables";
+const INFO_TABLES = "/tables";
 
 /**
  * {
@@ -38,7 +38,7 @@ const INFO_TABLES = INFO + "/tables";
  *  ]
  * }
  */
-const INFO_TABLE = INFO + "/:table_name";
+const INFO_TABLE = "/:table_name";
 
 /**
  * {
@@ -51,6 +51,9 @@ const INFO_TABLE = INFO + "/:table_name";
  *  ]
  * }
  */
-const DATA_TABLE = "/data/:table_name/:limit";
+const INFO_DATA_TABLE = "/data/:table_name/:limit";
 
-module.exports = { INFO, UPLOAD_FILE, INFO_CHECK_CONNECTION, INFO_TABLES, INFO_TABLE, DATA_TABLE };
+
+const SUBMIT_ANONYMISATION_FORM_AUTOMATIQUE_SUPPRESSION = "/form/anonymisation/automatique/suppression";
+
+module.exports = { INFO, UPLOAD_FILE, INFO_CHECK_CONNECTION, INFO_TABLES, INFO_TABLE, INFO_DATA_TABLE, SUBMIT_ANONYMISATION_FORM_AUTOMATIQUE_SUPPRESSION };

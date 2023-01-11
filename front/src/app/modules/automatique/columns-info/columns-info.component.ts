@@ -21,11 +21,11 @@ export class ColumnsInfoComponent implements OnInit {
 
   updateSelected(columnName: string) {
     if (this.columnSelected.includes(columnName)) {
-      this.columnSelected = this.columnSelected.filter((column) => column != columnName);
+        const index = this.columnSelected.indexOf(columnName);
+        this.columnSelected.splice(index, 1);
     } else {
-      this.columnSelected.push(columnName);
+        this.columnSelected.push(columnName);
     }
-    console.log(this.columnSelected);
   }
 
 }
