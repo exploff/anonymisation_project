@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {  MatTableModule} from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule
   ],
   exports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule
   ],
   declarations: []
 })

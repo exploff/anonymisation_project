@@ -23,6 +23,9 @@ const routes: Routes = [
   {
     path: 'manuel',
     component:ManuelLayoutComponent,
+    resolve: {
+      tables: TablesResolver
+    },
     loadChildren: () => import('./modules/manuel/manuel.module').then(m => m.ManuelModule)
   }];
 

@@ -1,3 +1,36 @@
+$color-salmon: rgb(247, 216, 255);
+$color-blue: rgb(226, 188, 255);
+$color-gray: rgb(84, 84, 84);
+
+.navbar-tables {
+  max-width: 25vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+
+  div {
+    display: flex;
+    min-height: 10vh;
+    justify-content: center;
+    align-items: center;
+    word-break: break-all;
+    cursor: pointer;
+    padding: 1rem;
+    background: radial-gradient($color-salmon, $color-blue);
+
+    &.active {
+      -webkit-box-shadow: inset 2px 1px 10px $color-gray;
+      -moz-box-shadow: inset 1px 1px 10px $color-gray;
+      box-shadow: inset 1px 1px 10px $color-gray;
+    }
+
+    &:hover {
+      -webkit-box-shadow: inset 2px 1px 10px $color-gray;
+      -moz-box-shadow: inset 1px 1px 10px $color-gray;
+      box-shadow: inset 1px 1px 10px $color-gray;
+    }
+  }
+}
 :host{
   .footer{
     position: fixed;
@@ -5,4 +38,7 @@
     left: 50%;
     transform:translatex(-50%);
   }
+}
+.tableau {
+  width: 100%;
 }
