@@ -5,13 +5,13 @@ import database as db
 
 connection = db.mysql_connection()
 cursor = connection.cursor()
-request = "UPDATE " + sys.argv[1] + " SET " + sys.argv[2] + " = NULL"
+request = "UPDATE " + sys.argv[1] + " SET " + sys.argv[2] + " = 'xxxxxxxx'"
 for i in range(3, len(sys.argv)):
-    request += ", " + sys.argv[i] + " = NULL"
+    request += ", " + sys.argv[i] + " = 'xxxxxxxx'"
 
 cursor.execute(request)
 connection.commit()
 connection.close()
 
-print("Script de suppression done ! " + request)
+print("Script de character masking done ! " + request)
 sys.exit(0)

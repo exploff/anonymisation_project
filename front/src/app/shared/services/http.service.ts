@@ -34,7 +34,17 @@ export class HttpService {
   }
 
   formAnonymisationAutomatique(anonymisationForm:AnonymisationAutomatique):Observable<Response> {
-    return this.httpClient.post<Response>("http://localhost:3000/form/anonymisation/automatique/suppression", anonymisationForm);
+    console.log(anonymisationForm)
+    if (anonymisationForm.typeAnonymisation == "Suppression") {
+      return this.httpClient.post<Response>("http://localhost:3000/form/anonymisation/automatique/suppression", anonymisationForm);
+    } else if (anonymisationForm.typeAnonymisation == "Character Masking") {
+      return this.httpClient.post<Response>("http://localhost:3000/form/anonymisation/automatique/masking", anonymisationForm);
+    } else if(anonymisationForm.typeAnonymisation == "Randomisation") {
+      return this.httpClient.post<Response>("http://localhost:3000/form/anonymisation/automatique/randomisation", anonymisationForm);
+    } else {
+      throw('Type anonymisation non reconnu');
+    }
   }
+
 }
 

@@ -33,8 +33,13 @@ export class AutomatiqueLayoutComponent implements OnInit {
 
   changeTable(table: string) {
     this.tableActive = table;
+    this.columnSelected = [];
     this.table = this.httpService.infoTable(table);
     this.dataTable = this.httpService.dataTable(table, 5);
+  }
+
+  refreshData(event:string) {
+    this.dataTable = this.httpService.dataTable(this.tableActive, 5);
   }
 
 }

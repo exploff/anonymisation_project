@@ -9,6 +9,6 @@
     </div>
     <div class="col" *ngIf="table != null">
         <app-columns-info [columnSelected]="columnSelected" [dataTable]="dataTable | async" [table]="table | async"></app-columns-info>
-        <app-form-anonymisation class="mt-5 p-1" [table]="table | async" [columnSelected]="columnSelected"></app-form-anonymisation>
+        <app-form-anonymisation class="mt-5 p-1" (messageEvent)="refreshData($event)" [table]="table | async" [columnSelected]="columnSelected"></app-form-anonymisation>
     </div>
 </div>

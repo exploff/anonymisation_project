@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AnonymisationAutomatique } from 'src/app/shared/models/AnonymisationAutomatique';
 import { Table } from 'src/app/shared/models/Table';
@@ -15,9 +15,10 @@ export class FormAnonymisationComponent implements OnInit {
   typeAnonymisation: string[] = ['Suppression', 'Character Masking', 'Randomisation'];
   @Input()columnSelected: Array<string> = [];
   @Input()table!: Table | null;
+  @Output() messageEvent = new EventEmitter<string>();
 
   typeRandomisationSelected!: string;
-  typeRandomisation: string[] = ['Nom', 'Nom et Prenom', 'Adresse email', 'Adresse complète', 'Ville', 'Code postal', 'Pays', 'Nombre', 'Texte'];
+  typeRandomisation: string[] = ['name', 'fullname', 'email', 'fulladdress', 'city', 'zip', 'country', 'number', 'text'];
 
   constructor(private httpService: HttpService) { }
 
@@ -55,6 +56,7 @@ export class FormAnonymisationComponent implements OnInit {
     this.httpService.formAnonymisationAutomatique(form).subscribe(res =>{
       if(res.success){
         console.log(res.success);
+        this.messageEvent.emit("done");
       } else {
         console.log(res.error);
       }

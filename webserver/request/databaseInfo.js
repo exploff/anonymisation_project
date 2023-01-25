@@ -65,7 +65,7 @@ router.get('/', (req, res) => {
     }
 });
   
-router.get( varPath.INFO_CHECK_CONNECTION, (req, res) => {
+router.get(varPath.INFO_CHECK_CONNECTION, (req, res) => {
     try {
       let connection = getMysqlConnection();
       if (connection.state !== 'disconnected') {
