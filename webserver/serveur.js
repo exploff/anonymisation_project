@@ -3,21 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
-class Response {
-  constructor(status, error, success) {
-    this.status = status,
-    this.error = error,
-    this.success = success
-  }
-}
 
-class PythonResponse {
-  constructor(status, message) {
-    this.status = status;
-    this.message = message;
-  }
-}
 app.use(cors());
 app.use(bodyParser.json());
 

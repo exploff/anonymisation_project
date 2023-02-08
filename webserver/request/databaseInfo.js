@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const varPath = require('../path.js');
 
-require('dotenv').config({path: '../.env'});
-
 class Response {
     constructor(status, error, success) {
         this.status = status,

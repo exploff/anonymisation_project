@@ -22,7 +22,7 @@ router.post('/suppression', (req, res) => {
     console.log(req.body);
     if (req.body.typeAnonymisation == 'Suppression') {
       let columns = req.body.columns.join(' ');
-      let command = 'python ../scripts/anonymisation/suppression.py ' + req.body.table + " " + columns;
+      let command = 'python scripts/anonymisation/suppression.py ' + req.body.table + " " + columns;
       execCommand(res, command);
     } else {
       res.status(404).send(new Response(404, '', 'Type d\'anonymisation non reconnu'));
@@ -34,7 +34,7 @@ router.post('/masking', (req, res) => {
   console.log(req.body);
   if (req.body.typeAnonymisation == 'Character Masking') {
     let columns = req.body.columns.join(' ');
-    let command = 'python ../scripts/anonymisation/masking.py ' + req.body.table + " " + columns;
+    let command = 'python scripts/anonymisation/masking.py ' + req.body.table + " " + columns;
     console.log("command : " + command)
     execCommand(res, command);
   } else {
@@ -48,7 +48,7 @@ router.post('/randomisation', (req, res) => {
   if (req.body.typeAnonymisation == 'Randomisation') {
     let columns = req.body.columns.join(' ');
     let type = req.body.typeRandomisation;
-    let command = 'python ../scripts/anonymisation/random_general.py ' + req.body.table + " " + type + " " + columns;
+    let command = 'python scripts/anonymisation/random_general.py ' + req.body.table + " " + type + " " + columns;
     console.log("command : " + command)
     execCommand(res, command);
   } else {
@@ -59,6 +59,9 @@ router.post('/randomisation', (req, res) => {
 function execCommand(res, command) {
   exec(command, (err, stdout, stderr) => {
     let responsePython;
+    console.log("stdout : " + stdout);
+    console.log("stderr : " + stderr);
+    console.log("err : " + err)
     if (err) {
       responsePython = new PythonResponse(err.code, stdout);
       res.status(500).send(new Response(500, responsePython.message + " : " + responsePython.status, ''));
