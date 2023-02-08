@@ -1,13 +1,15 @@
 import sys
-sys.path.insert(0, 'C:\\Users\\Julien\\Desktop\\Cours_Informatique\\YNOV\\YDAYS\\anonymisation_project\\scripts')
-import database as db
+sys.path.insert(0, 'E:\\github\\anonymisation_project\\scripts')
 import randomisation.generator as generator
+import database as db
 
 def recupids(table, connection):
     cursor = connection.cursor(buffered=True)
-    cursor.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'db' AND TABLE_NAME = '"+table+"' AND COLUMN_KEY = 'PRI'")
-    results = cursor.fetchall()    
+    cursor.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'db' AND TABLE_NAME = '" +
+                   table+"' AND COLUMN_KEY = 'PRI'")
+    results = cursor.fetchall()
     return results
+
 
 def recupvalues(table, fields, connection):
     id = ', '.join([x for x, in fields])
@@ -16,10 +18,14 @@ def recupvalues(table, fields, connection):
     results = cursor.fetchall()
     return results
 
+
 def update(table, fields, value, ids, conditions, cursor):
-    conditionWhere = ' AND '.join([f'{x[0]} = {y}' for x, y in zip(ids, conditions)])
-    sql = "UPDATE " + table + " SET "+ fields + " = '" + str(value) + "' WHERE " + conditionWhere
+    conditionWhere = ' AND '.join(
+        [f'{x[0]} = {y}' for x, y in zip(ids, conditions)])
+    sql = "UPDATE " + table + " SET " + fields + \
+        " = '" + str(value) + "' WHERE " + conditionWhere
     cursor.execute(sql)
+
 
 def random_general(connection, table, type, fields):
     ids = recupids(table, connection)
@@ -48,20 +54,29 @@ def random_general(connection, table, type, fields):
     else:
         print('Type anonymisation not found')
         sys.exit(1)
-    
+
     cursor = connection.cursor()
     for line in valuesIds:
         value = randoms.pop()
-        update(table, fields,value,ids,line, cursor)
+        update(table, fields, value, ids, line, cursor)
     cursor.close()
+
 
 connection = db.mysql_connection()
 
 table = sys.argv[1]
 type = sys.argv[2]
-field = sys.argv[3]
-
-random_general(connection, table, type, field)
+args = sys.argv
+field = sys.argv[3:]
+print('debug')
+print(field)
+print(len(field))
+if len(field) > 1:
+    for colonne in field:
+        print(colonne)
+        random_general(connection, table, type, colonne)
+else:
+    random_general(connection, table, type, field[0])
 
 connection.commit()
 connection.close()
