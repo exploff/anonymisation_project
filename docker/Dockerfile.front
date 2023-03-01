@@ -1,0 +1,8 @@
+FROM node:16.17.1-alpine3.15 as front
+WORKDIR /app
+COPY front /app
+RUN cd /app && npm install @angular/cli && npm install && npm run build --prod
+
+FROM nginx:alpine
+COPY nginx/default.conf /etc/nginx/conf.d
+COPY --from=front /app/dist/front /usr/share/nginx/html

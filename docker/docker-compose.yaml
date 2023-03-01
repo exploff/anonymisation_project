@@ -1,0 +1,41 @@
+version: '3.9'
+services:
+  backend:
+    image: anonym:back
+    container_name: anonym-backend
+    environment:
+      - HOST=mysql
+      - DATABASE=lportal
+      - USER=user
+      - PASSWORD=password
+    ports:
+      - 3000:3000
+    depends_on:
+      mysql:
+        condition: service_healthy
+  # frontend:
+  #   image: anonym:front
+  #   container_name: anonym-frontend
+  #   environment:
+  #     - serverAddress=backend:3000
+  #   ports:
+  #     - 8080:80
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=lportal
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    ports:
+      - 3306:3306
+    volumes:
+      - ./lportal.sql:/docker-entrypoint-initdb.d/lportal.sql
+      - ./db-data:/var/lib/mysql
+    healthcheck:
+      test: mysql -u user -ppassword -e "show global variables where Value like 3306 AND Variable_name like 'port'" | grep 3306
+      interval: 15s
+      timeout: 30s
+      retries: 20
+      start_period: 15s
