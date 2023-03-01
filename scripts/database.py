@@ -20,7 +20,7 @@ def mysql_connection():
                                             password=connectionAttribute['password'])
         if connection.is_connected():
             db_Info = connection.get_server_info()
-            print("Connected to MySQL Server version ", db_Info)
+            #print("Connected to MySQL Server version ", db_Info)
             connection.autocommit = False
             return connection
 
