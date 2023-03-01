@@ -15,6 +15,7 @@ import { PageEvent } from '@angular/material/paginator'
 export class ManuelLayoutComponent implements OnInit {
   length = 100
   pageSize = 10
+  pageIndex = 0
   pageSizeOptions = [5, 10, 25]
   // MatPaginator Output
   pageEvent!: PageEvent
@@ -37,7 +38,7 @@ export class ManuelLayoutComponent implements OnInit {
   changeTable(table: string) {
     this.tableActive = table
     this.table = this.httpService.infoTable(table)
-    this.dataTable = this.httpService.dataTable(table, this.pageSize)
+    this.dataTable = this.httpService.dataTableManuel(table, this.pageSize, this.pageIndex)
 
     this.dataTable.subscribe(val=>{
       if(val.data){
@@ -70,7 +71,7 @@ export class ManuelLayoutComponent implements OnInit {
 
   onPageEvent(event:PageEvent){
     console.log(event)
-
+    this.pageIndex = event.pageIndex;
   }
 
 }

@@ -18,6 +18,10 @@ app.use(varPath.UPLOAD_FILE, dumpSql);
 const automatique = require('./request/automatique.js');
 app.use(varPath.SUBMIT_ANONYMISATION_FORM_AUTOMATIQUE, automatique);
 
+const manuel = require('./request/manuel.js');
+console.log(manuel.stack[0].route);
+app.use(varPath.DATA_ANONYMISATION_MANUEL, manuel);
+
 app.listen(3000, () => {
   console.log('Server started');
 })

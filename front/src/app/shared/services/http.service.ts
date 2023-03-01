@@ -33,6 +33,10 @@ export class HttpService {
     return this.httpClient.get<DataTable>("http://localhost:3000/info/data/"+table+"/"+limit);
   }
 
+  dataTableManuel(table:string, limit:number = 2, pageIndex:number = 0):Observable<DataTable> {
+    return this.httpClient.get<DataTable>("http://localhost:3000/form/anonymisation/manuel/"+table+"/"+limit+"/"+pageIndex);
+  }
+
   formAnonymisationAutomatique(anonymisationForm:AnonymisationAutomatique):Observable<Response> {
     console.log(anonymisationForm)
     if (anonymisationForm.typeAnonymisation == "Suppression") {
