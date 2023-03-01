@@ -7,6 +7,7 @@ import { Response } from '../models/Response';
 import { Table } from '../models/Table';
 import { Tables } from '../models/Tables';
 import { environment } from 'src/environments/environment';
+import { ManuelResponse } from '../models/ManuelResponse';
 
 @Injectable({
    providedIn: 'root',
@@ -34,8 +35,8 @@ export class HttpService {
     return this.httpClient.get<DataTable>(environment.serverAddress + "/info/data/"+table+"/"+limit);
   }
 
-  dataTableManuel(table:string, limit:number = 2, pageIndex:number = 0):Observable<DataTable> {
-    return this.httpClient.get<DataTable>(environment.serverAddress + "/form/anonymisation/manuel/"+table+"/"+limit+"/"+pageIndex);
+  dataTableManuel(table:string):Observable<ManuelResponse[]> {
+    return this.httpClient.get<ManuelResponse[]>(environment.serverAddress + "/form/anonymisation/manuel/"+table);
   }
 
   formAnonymisationAutomatique(anonymisationForm:AnonymisationAutomatique):Observable<Response> {

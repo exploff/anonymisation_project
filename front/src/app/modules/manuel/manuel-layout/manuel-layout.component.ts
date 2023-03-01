@@ -6,6 +6,7 @@ import { Table } from 'src/app/shared/models/Table'
 import { Tables } from 'src/app/shared/models/Tables'
 import { Component, OnInit } from '@angular/core'
 import { PageEvent } from '@angular/material/paginator'
+import { ManuelResponse } from 'src/app/shared/models/ManuelResponse'
 
 @Component({
   selector: 'app-manuel-layout',
@@ -13,10 +14,7 @@ import { PageEvent } from '@angular/material/paginator'
   styleUrls: ['./manuel-layout.component.scss']
 })
 export class ManuelLayoutComponent implements OnInit {
-  length = 100
-  pageSize = 10
-  pageIndex = 0
-  pageSizeOptions = [5, 10, 25]
+
   // MatPaginator Output
   pageEvent!: PageEvent
   tables!: Tables
@@ -26,7 +24,11 @@ export class ManuelLayoutComponent implements OnInit {
   tableActive!: string
   displayedColumns: string[] = ['Donnee', 'Type', 'Proposition', 'Choix']
   dataSource:ligneTableau[]=[]
+  dataSourceGlobale:ligneTableau[]=[]
 
+  length = 10
+  pageSize = 10
+  pageIndex = 0
   constructor(private httpService: HttpService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -38,40 +40,47 @@ export class ManuelLayoutComponent implements OnInit {
   changeTable(table: string) {
     this.tableActive = table
     this.table = this.httpService.infoTable(table)
-    this.dataTable = this.httpService.dataTableManuel(table, this.pageSize, this.pageIndex)
 
-    this.dataTable.subscribe(val=>{
-      if(val.data){
-        this.table.subscribe(tableinfo=>{
+    let manuelResult:Observable<ManuelResponse[]>= this.httpService.dataTableManuel(table)
+    manuelResult.subscribe(val=>{
+      if(val){
           let tableauSource:ligneTableau[]=[]
-          for(let ligne of val.data){
-            for(let colonne of tableinfo.columns){
+          for(let ligne of val){
+            for(let col of ligne.results){
               let ligneTB:ligneTableau={
-                Donnee:ligne[colonne.name],
-                Type:colonne.type,
+                Donnee:col.value,
+                Type:col.type,
                 Proposition:'à faire',
                 Choix:'à faire'
               }
               tableauSource.push(ligneTB)
-              // console.log(ligne[colonne.name],colonne.type)
             }
+              // console.log(ligne[colonne.name],colonne.type)
           }
-          this.dataSource=tableauSource
-          console.log(this.dataSource)
-        })
+          this.length = tableauSource.length
+          if(this.length >10){
+            this.pageSize = 10
+          }else{
+            this.pageSize = this.length
+          }
+          this.dataSourceGlobale=tableauSource
+          this.dataSource=this.dataSourceGlobale.slice(0, this.pageSize);
 
       }
     })
 
   }
 
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str)
-  }
+  // setPageSizeOptions(setPageSizeOptionsInput: string) {
+  //   this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str)
+  // }
 
   onPageEvent(event:PageEvent){
-    console.log(event)
-    this.pageIndex = event.pageIndex;
+    let start= event.pageIndex*event.pageSize
+    let end = start+event.pageSize;
+
+    this.dataSource= this.dataSourceGlobale.slice(start, end)
+
   }
 
 }
