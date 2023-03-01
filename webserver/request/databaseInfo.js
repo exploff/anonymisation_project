@@ -90,11 +90,11 @@ router.get(varPath.INFO_TABLES, (req, res) => {
       tables: []
     }
     if (connection.state !== 'disconnected') {
-      connection.query("SHOW TABLES", function (err, result, fields) {
+      connection.query("SELECT Table_name as table_name from information_schema.tables where table_schema = '" + process.env.DATABASE +"'", function (err, result, fields) {
         try {
           if (err) { throw err };
           sendResult.tables = result.map((item) => {
-            return item.Tables_in_db;
+            return item.table_name;
           })
           res.setHeader('content-type', 'application/json');
           res.status(200).send(sendResult);
