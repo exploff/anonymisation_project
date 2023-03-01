@@ -69,8 +69,11 @@ router.get(varPath.INFO_CHECK_CONNECTION, (req, res) => {
       if (connection.state !== 'disconnected') {
         connection.query("SHOW VARIABLES LIKE 'version'", function (err, result, fields) {
           if (err) throw err;
+          let data = Object.values(JSON.parse(JSON.stringify(result)));
+          data.push({ "host": process.env.HOST, "user": process.env.USER, "password": process.env.PASSWORD, "database": process.env.DATABASE });
+          console.log(data);
           res.setHeader('content-type', 'application/json');
-          res.status(200).send(result);
+          res.status(200).send(data);
         });
       } else {
         res.status(400).send("No connection");
