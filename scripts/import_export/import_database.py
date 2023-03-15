@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, 'E:\\github\\anonymisation_project\\scripts')
+sys.path.insert(0, 'C:\\Users\\Julien\\Desktop\\Cours_Informatique\\YNOV\\YDAYS\\anonymisation_project\\scripts')
 import database as db
 import os
 from dotenv import load_dotenv

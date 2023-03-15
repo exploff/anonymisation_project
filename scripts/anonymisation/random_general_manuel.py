@@ -19,15 +19,15 @@ def recupvalues(table, fields, connection):
     return results
 
 
-def update(table, fields, value, ids, conditions, cursor):
+def update(table, field, condition, value, ids, conditions, cursor):
     conditionWhere = ' AND '.join(
         [f'{x[0]} = {y}' for x, y in zip(ids, conditions)])
-    sql = "UPDATE " + table + " SET " + fields + \
-        " = '" + str(value) + "' WHERE " + conditionWhere
+    sql = "UPDATE " + table + " SET " + field + \
+        " = '" + str(value) + "' WHERE " + conditionWhere + " AND " + field + " LIKE '%" + condition + "%'"
     cursor.execute(sql)
 
 
-def random_general(connection, table, type, fields):
+def random_general(connection, table, type, field, condition):
     ids = recupids(table, connection)
     valuesIds = recupvalues(table, ids, connection)
     randoms = []
@@ -58,7 +58,7 @@ def random_general(connection, table, type, fields):
     cursor = connection.cursor()
     for line in valuesIds:
         value = randoms.pop()
-        update(table, fields, value, ids, line, cursor)
+        update(table, field, condition, value, ids, line, cursor)
     cursor.close()
 
 
@@ -66,17 +66,10 @@ connection = db.mysql_connection()
 
 table = sys.argv[1]
 type = sys.argv[2]
-args = sys.argv
-field = sys.argv[3:]
-print('debug')
-print(field)
-print(len(field))
-if len(field) > 1:
-    for colonne in field:
-        print(colonne)
-        random_general(connection, table, type, colonne)
-else:
-    random_general(connection, table, type, field[0])
+column = sys.argv[3]
+condition = sys.argv[4]
+
+random_general(connection, table, type, column, condition)
 
 connection.commit()
 connection.close()

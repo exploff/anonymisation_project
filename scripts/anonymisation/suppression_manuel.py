@@ -5,13 +5,15 @@ import database as db
 
 connection = db.mysql_connection()
 cursor = connection.cursor()
-request = "UPDATE " + sys.argv[1] + " SET " + sys.argv[2] + " = 'xxxxxxxx'"
-for i in range(3, len(sys.argv)):
-    request += ", " + sys.argv[i] + " = 'xxxxxxxx'"
+
+table = sys.argv[1]
+column = sys.argv[2]
+condition = sys.argv[3]
+request = "UPDATE " + table + " SET " + column + " = NULL WHERE " + column + " LIKE '%" + condition + "%'"
 
 cursor.execute(request)
 connection.commit()
 connection.close()
 
-print("Script de character masking done ! " + request)
+print("Script de suppression done ! " + request)
 sys.exit(0)

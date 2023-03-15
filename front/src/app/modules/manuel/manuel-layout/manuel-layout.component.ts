@@ -4,9 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router'
 import { HttpService } from 'src/app/shared/services/http.service'
 import { Table } from 'src/app/shared/models/Table'
 import { Tables } from 'src/app/shared/models/Tables'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core'
 import { PageEvent } from '@angular/material/paginator'
 import { ManuelResponse } from 'src/app/shared/models/ManuelResponse'
+import { LigneTableau } from 'src/app/shared/models/LigneTableau'
 
 @Component({
   selector: 'app-manuel-layout',
@@ -22,9 +23,11 @@ export class ManuelLayoutComponent implements OnInit {
   table!: Observable<Table>;
 
   tableActive!: string
-  displayedColumns: string[] = ['Donnee', 'Type', 'Proposition', 'Choix']
-  dataSource:ligneTableau[]=[]
-  dataSourceGlobale:ligneTableau[]=[]
+  displayedColumns: string[] = ['Donnee', 'Column', 'Type', 'Choix']
+  dataSource:LigneTableau[]=[]
+  dataSourceGlobale:LigneTableau[]=[]
+
+  columnSelected: Array<LigneTableau> = [];
 
   isLoading:boolean=false;
   hasResult:boolean=true;
@@ -41,6 +44,7 @@ export class ManuelLayoutComponent implements OnInit {
   }
 
   changeTable(table: string) {
+    this.columnSelected = [];
     this.tableActive = table
     this.table = this.httpService.infoTable(table)
     this.dataSource=[];
@@ -50,19 +54,26 @@ export class ManuelLayoutComponent implements OnInit {
     let manuelResult:Observable<ManuelResponse[]>= this.httpService.dataTableManuel(table)
     manuelResult.subscribe(val=>{
       if(val){
-          let tableauSource:ligneTableau[]=[]
+          let tableauSource:LigneTableau[]=[]
+          var i = 0;
           for(let ligne of val){
+            let columnName = ligne.column;
             for(let col of ligne.results){
-              let ligneTB:ligneTableau={
+              let ligneTB:LigneTableau={
+                Selected:false,
+                Index: i,
+                Column: columnName,
                 Donnee:col.value,
                 Type:col.type,
                 Proposition:'à faire',
                 Choix:'à faire'
               }
               tableauSource.push(ligneTB)
+              i++;
             }
-              // console.log(ligne[colonne.name],colonne.type)
           }
+          console.log(tableauSource)
+
           this.length = tableauSource.length
           if(this.length >10){
             this.pageSize = 10
@@ -93,11 +104,19 @@ export class ManuelLayoutComponent implements OnInit {
 
   }
 
+  updateSelected(index: number) {
+    let ligneTableau = this.dataSource.filter(ligne => ligne.Index == index)[0];
+
+    if (this.columnSelected.includes(ligneTableau)) {
+      this.columnSelected = this.columnSelected.filter(ligne => ligne.Index != index);
+    } else {
+      this.columnSelected.push(ligneTableau);
+    }
+  }
+
+  refreshData(event:string) {
+    console.log("refresh ?")
+    this.changeTable(this.tableActive);
+  }
 }
 
-export interface ligneTableau {
-  Donnee: string;
-  Type: string;
-  Proposition: string;
-  Choix: any;
-}
