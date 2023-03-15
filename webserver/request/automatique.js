@@ -59,9 +59,6 @@ router.post('/randomisation', (req, res) => {
 function execCommand(res, command) {
   exec(command, (err, stdout, stderr) => {
     let responsePython;
-    console.log("stdout : " + stdout);
-    console.log("stderr : " + stderr);
-    console.log("err : " + err)
     if (err) {
       responsePython = new PythonResponse(err.code, stdout);
       res.status(500).send(new Response(500, responsePython.message + " : " + responsePython.status, ''));
