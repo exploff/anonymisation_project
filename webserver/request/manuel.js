@@ -28,6 +28,8 @@ router.get("/:table_name", (req, res) => {
       table_name +
       " " +
       process.env.DATABASE;
+
+    console.log(command)  
     execCommand(res, command);
   } else {
     res
@@ -36,14 +38,77 @@ router.get("/:table_name", (req, res) => {
   }
 });
 
+
+router.post('/:table_name/suppression', (req, res) => {
+  console.log(req.body);
+  if (req.body.typeAnonymisation == 'Suppression') {
+    let table = req.body.table;
+    let columns = req.body.columns;
+    try {
+      columns.forEach((column) => {
+        let command = 'python scripts/anonymisation/suppression_manuel.py ' + table + " " + column.column + " " + column.containData;
+        console.log(command)
+        exec(command, (err, stdout, stderr) => {
+        });
+      });
+      res.status(200).send(new Response(200, "", "Suppression success"));
+    } catch(err) {
+      res.status(500).send(new Response(500, '', 'Erreur dans l execution du script python'));
+    }
+  } else {
+    res.status(404).send(new Response(404, '', 'Type d\'anonymisation non reconnu'));
+  }
+})
+
+
+router.post('/:table_name/masking', (req, res) => {
+  console.log(req.body);
+  if (req.body.typeAnonymisation == 'Character Masking') {
+    let table = req.body.table;
+    let columns = req.body.columns;
+    try {
+      columns.forEach((column) => {
+        let command = 'python scripts/anonymisation/masking_manuel.py ' + table + " " + column.column + " " + column.containData;
+        console.log(command)
+        exec(command, (err, stdout, stderr) => {
+        });
+      });
+      res.status(200).send(new Response(200, "", "Masking success"));
+    } catch(err) {
+      res.status(500).send(new Response(500, '', 'Erreur dans l execution du script python'));
+    }
+  } else {
+    res.status(404).send(new Response(404, '', 'Type d\'anonymisation non reconnu'));
+  }
+})
+
+
+router.post('/:table_name/randomisation', (req, res) => {
+  console.log(req.body);
+  if (req.body.typeAnonymisation == 'Randomisation') {
+    let table = req.body.table;
+    let type = req.body.typeRandomisation
+    let columns = req.body.columns;
+    try {
+      columns.forEach((column) => {
+        let command = 'python scripts/anonymisation/random_general_manuel.py ' + table + " " + type + " " + column.column + " " + column.containData;
+        console.log(command)
+        exec(command, (err, stdout, stderr) => {
+        });
+      });
+      res.status(200).send(new Response(200, "", "Randomisation success"));
+    } catch(err) {
+      res.status(500).send(new Response(500, '', 'Erreur dans l execution du script python'));
+    }
+  } else {
+    res.status(404).send(new Response(404, '', 'Type d\'anonymisation non reconnu'));
+  }
+})
+
 function execCommand(res, command) {
   exec(command, (err, stdout, stderr) => {
     let responsePython;
-    //console.log("stdout : " + stdout);
     let json = eval(stdout);
-    console.log(json);
-    //console.log("stderr : " + stderr);
-    //console.log("err : " + err)
     if (err) {
       responsePython = new PythonResponse(err.code, stdout);
       res

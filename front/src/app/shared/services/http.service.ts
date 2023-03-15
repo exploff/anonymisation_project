@@ -8,6 +8,7 @@ import { Table } from '../models/Table';
 import { Tables } from '../models/Tables';
 import { environment } from 'src/environments/environment';
 import { ManuelResponse } from '../models/ManuelResponse';
+import { AnonymisationManuel } from '../models/AnonymisationManuel';
 
 @Injectable({
    providedIn: 'root',
@@ -47,6 +48,19 @@ export class HttpService {
       return this.httpClient.post<Response>(environment.serverAddress + "/form/anonymisation/automatique/masking", anonymisationForm);
     } else if(anonymisationForm.typeAnonymisation == "Randomisation") {
       return this.httpClient.post<Response>(environment.serverAddress + "/form/anonymisation/automatique/randomisation", anonymisationForm);
+    } else {
+      throw('Type anonymisation non reconnu');
+    }
+  }
+
+  formAnonymisationManuel(anonymisationForm:AnonymisationManuel):Observable<Response> {
+    console.log(anonymisationForm)
+    if (anonymisationForm.typeAnonymisation == "Suppression") {
+      return this.httpClient.post<Response>(environment.serverAddress + "/form/anonymisation/manuel/" + anonymisationForm.table + "/suppression", anonymisationForm);
+    } else if (anonymisationForm.typeAnonymisation == "Character Masking") {
+      return this.httpClient.post<Response>(environment.serverAddress + "/form/anonymisation/manuel/" + anonymisationForm.table + "/masking", anonymisationForm);
+    } else if(anonymisationForm.typeAnonymisation == "Randomisation") {
+      return this.httpClient.post<Response>(environment.serverAddress + "/form/anonymisation/manuel/" + anonymisationForm.table + "/randomisation", anonymisationForm);
     } else {
       throw('Type anonymisation non reconnu');
     }
