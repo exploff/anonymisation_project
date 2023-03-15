@@ -29,6 +29,9 @@ export class ManuelLayoutComponent implements OnInit {
 
   columnSelected: Array<LigneTableau> = [];
 
+  isLoading:boolean=false;
+  hasResult:boolean=true;
+
   length = 10
   pageSize = 10
   pageIndex = 0
@@ -44,6 +47,9 @@ export class ManuelLayoutComponent implements OnInit {
     this.columnSelected = [];
     this.tableActive = table
     this.table = this.httpService.infoTable(table)
+    this.dataSource=[];
+    this.isLoading=true;
+    this.hasResult=true;
 
     let manuelResult:Observable<ManuelResponse[]>= this.httpService.dataTableManuel(table)
     manuelResult.subscribe(val=>{
@@ -74,8 +80,12 @@ export class ManuelLayoutComponent implements OnInit {
           }else{
             this.pageSize = this.length
           }
+          this.isLoading=false;
           this.dataSourceGlobale=tableauSource
           this.dataSource=this.dataSourceGlobale.slice(0, this.pageSize);
+          if(this.dataSource.length==0){
+            this.hasResult=false;
+          }
 
       }
     })

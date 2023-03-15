@@ -5,7 +5,16 @@
       {{ table }}
     </div>
   </div>
-  <div class="col tableau" *ngIf="dataSource.length > 0">
+  <div class="loading"  *ngIf="dataSource.length == 0">
+    <div *ngIf="hasResult == false">
+      <span>La table que vous avez choisie ne contient pas d'élément à traiter.</span>
+    </div>
+    <div *ngIf="isLoading == false && hasResult == true">
+      <span>Veuillez choisir une table</span>
+    </div>
+    <div *ngIf="isLoading == true"> <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner></div>
+  </div>
+  <div class="col tableau" *ngIf="dataSource.length > 0 ">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <ng-container matColumnDef="Donnee">
