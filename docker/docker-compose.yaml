@@ -13,13 +13,13 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-  # frontend:
-  #   image: anonym:front
-  #   container_name: anonym-frontend
-  #   environment:
-  #     - serverAddress=backend:3000
-  #   ports:
-  #     - 8080:80
+  frontend:
+    image: anonym:front
+    container_name: anonym-frontend
+    environment:
+      - serverAddress="backend:3000"
+    ports:
+      - 8080:80
   mysql:
     image: mysql:5.7
     container_name: mysql
