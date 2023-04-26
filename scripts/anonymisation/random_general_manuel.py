@@ -6,22 +6,6 @@ sys.path.insert(0, module_dir)
 import randomisation.generator as generator
 import database as db
 
-def recupids(table, connection):
-    cursor = connection.cursor(buffered=True)
-    cursor.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'db' AND TABLE_NAME = '" +
-                   table+"' AND COLUMN_KEY = 'PRI'")
-    results = cursor.fetchall()
-    return results
-
-
-def recupvalues(table, fields, connection):
-    id = ', '.join([x for x, in fields])
-    cursor = connection.cursor()
-    cursor.execute("SELECT " + id + " FROM "+table)
-    results = cursor.fetchall()
-    return results
-
-
 def update(table, field, condition, value, ids, conditions, cursor):
     conditionWhere = ' AND '.join(
         [f'{x[0]} = {y}' for x, y in zip(ids, conditions)])
@@ -31,8 +15,8 @@ def update(table, field, condition, value, ids, conditions, cursor):
 
 
 def random_general(connection, table, type, field, condition):
-    ids = recupids(table, connection)
-    valuesIds = recupvalues(table, ids, connection)
+    ids = db.recupids(table, connection)
+    valuesIds = db.recupvalues(table, ids, connection)
     randoms = []
 
     size = len(valuesIds)

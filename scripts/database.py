@@ -3,6 +3,22 @@ from mysql.connector import Error
 import os
 from dotenv import load_dotenv
 
+def recupids(table, connection):
+    cursor = connection.cursor(buffered=True)
+    db = os.getenv('DATABASE') 
+    if db is None:
+        db = "db"
+    cursor.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" + db + "' AND TABLE_NAME = '" +
+                   table+"' AND COLUMN_KEY = 'PRI'")
+    results = cursor.fetchall()
+    return results
+
+def recupvalues(table, fields, connection):
+    id = ', '.join([x for x, in fields])
+    cursor = connection.cursor()
+    cursor.execute("SELECT " + id + " FROM "+table)
+    results = cursor.fetchall()
+    return results
 
 def mysql_connection():
     load_dotenv()
@@ -11,10 +27,7 @@ def mysql_connection():
     connectionAttribute['host'] = os.getenv('HOST')
     connectionAttribute['user'] = os.getenv('USER')
     connectionAttribute['password'] = os.getenv('PASSWORD')
-    print(connectionAttribute['db'])
-    print(connectionAttribute['host'])
-    print(connectionAttribute['user'])
-    print(connectionAttribute['password'])
+
     # Connection Mysql
     try:
         connection = mysql.connector.connect(host=connectionAttribute['host'],
