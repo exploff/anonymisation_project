@@ -1,7 +1,10 @@
 import sys
-sys.path.insert(0, 'D:\\YNOV\\YDAYS\\anonymisation_project\\scripts')
-import randomisation.generator as generator
+import os
+parent_dir = os.path.dirname(os.path.abspath(__file__))
+module_dir = os.path.join(parent_dir, '..')
+sys.path.insert(0, module_dir)
 import database as db
+import randomisation.generator as generator
 
 def recupids(table, connection):
     cursor = connection.cursor(buffered=True)

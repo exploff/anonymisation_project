@@ -1,7 +1,9 @@
 import sys
-sys.path.insert(0, 'D:\\YNOV\\YDAYS\\anonymisation_project\\scripts')
-import database as db
 import os
+parent_dir = os.path.dirname(os.path.abspath(__file__))
+module_dir = os.path.join(parent_dir, '..')
+sys.path.insert(0, module_dir)
+import database as db
 from dotenv import load_dotenv
 import subprocess
 
