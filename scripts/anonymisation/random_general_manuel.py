@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, 'C:\\Users\\Julien\\Desktop\\Cours_Informatique\\YNOV\\YDAYS\\anonymisation_project\\scripts')
+sys.path.insert(0, 'D:\\YNOV\\YDAYS\\anonymisation_project\\scripts')
 import randomisation.generator as generator
 import database as db
 

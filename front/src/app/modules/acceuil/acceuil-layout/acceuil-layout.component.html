@@ -1,35 +1,31 @@
 
 <div>
   <mat-card>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
-    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
-    explicabo.
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
-    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
-    explicabo.
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
-    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
-    explicabo.
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
-    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
-    explicabo.
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
-    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
-    explicabo.
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
-    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
-    explicabo.
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
-    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
-    explicabo.
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
-    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
-    explicabo.
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim perferendis iusto, architecto, praesentium dicta porro
-    omnis atque deserunt blanditiis nulla dolores alias minima veritatis sint aspernatur corporis? Mollitia, ullam
-    explicabo.
+    <mat-card-header>
+      <mat-card-subtitle>YDAYS - 2022 / 2023</mat-card-subtitle>
+      <mat-card-title>Anonymisation de base de données V.0.0.1</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Bienvenue sur notre projet YDays, notre outil d'anonymisation de base de données open source.</p>
+
+      <p>Le but de ce projet est de vous aider à vous conformer aux réglementations strictes en matière de confidentialité des données en offrant une solution simple et efficace pour anonymiser vos données sensibles tout en conservant leur contexte et leur cohérence.</p>
+
+      <p>Notre interface utilisateur conviviale vous permettra de visualiser toutes les tables et colonnes de votre base de données et de choisir celles que vous souhaitez anonymiser en utilisant la méthode d'anonymisation de votre choix.</p>
+
+      <p>Nous offrons également une fonctionnalité de détection automatique de données sensibles en utilisant des modèles de NER, ce qui vous permettra de prendre des décisions éclairées sur la manière de traiter ces données.</p>
+
+      <p>Cependant, veuillez noter que nous ne sommes pas responsables de l'utilisation de cet outil et que nous ne garantissons pas une efficacité à 100%.</p>
+    </mat-card-content>
   </mat-card>
   <form [formGroup]="fileFormGroup" (ngSubmit)="onSubmit()">
+    <div>
+      <button (click)="onSubmit('automatique')" type="submit" mat-stroked-button color="primary" >
+        Automatique
+      </button>
+      <button (click)="onSubmit('manuel')" type="submit" mat-stroked-button color="primary" >
+        Manuel
+      </button>
+    </div>
     <div class="fileInput">
       <label>Fichier à Anonymiser :</label>
       <div>
@@ -40,14 +36,6 @@
         <span *ngIf="sqlfile">{{ sqlfile.split("\\")[sqlfile.split("\\").length-1]}}</span>
         <span *ngIf="!sqlfile">Aucun fichier séléctionné.</span>
       </div>
-    </div>
-    <div>
-      <button (click)="onSubmit('automatique')" type="submit" mat-stroked-button color="primary" >
-        Automatique
-      </button>
-      <button (click)="onSubmit('manuel')" type="submit" mat-stroked-button color="primary" >
-        Manuel
-      </button>
     </div>
   </form>
 </div>

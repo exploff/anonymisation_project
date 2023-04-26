@@ -28,13 +28,16 @@ export class AcceuilLayoutComponent implements OnInit {
   }
 
   onSubmit(value?:string){
-    if(value){
-      this.httpService.uploadfile(this.uploadedFile).subscribe(res =>{
-        if(res.success){
-          console.log(value);
-          this.router.navigateByUrl(`/${value}`)
-        }
-      })
+    // if(value){
+    //   this.httpService.uploadfile(this.uploadedFile).subscribe(res =>{
+    //     if(res.success){
+    //       console.log(value);
+    //       this.router.navigateByUrl(`/${value}`)
+    //     }
+    //   })
+    // }
+    if (value) {
+      this.router.navigateByUrl(`/${value}`)
     }
   }
 }

@@ -19,7 +19,7 @@ def get_fake_fullname(number):
 
 def get_fake_email(number):
     fake = Faker('en_US')
-    email = list(fake.unique.ascii_company_email() for i in range(number))
+    email = list(fake.unique.ascii_free_email() for i in range(number))
     fake.unique.clear()
     return email
 
