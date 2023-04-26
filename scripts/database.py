@@ -11,7 +11,10 @@ def mysql_connection():
     connectionAttribute['host'] = os.getenv('HOST')
     connectionAttribute['user'] = os.getenv('USER')
     connectionAttribute['password'] = os.getenv('PASSWORD')
-
+    print(connectionAttribute['db'])
+    print(connectionAttribute['host'])
+    print(connectionAttribute['user'])
+    print(connectionAttribute['password'])
     # Connection Mysql
     try:
         connection = mysql.connector.connect(host=connectionAttribute['host'],

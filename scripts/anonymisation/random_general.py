@@ -8,7 +8,10 @@ import randomisation.generator as generator
 
 def recupids(table, connection):
     cursor = connection.cursor(buffered=True)
-    cursor.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'db' AND TABLE_NAME = '" +
+    db = os.getenv('DATABASE') 
+    # if db is None:
+    #     db = "db"
+    cursor.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '"+db+"' AND TABLE_NAME = '" +
                    table+"' AND COLUMN_KEY = 'PRI'")
     results = cursor.fetchall()
     return results
@@ -16,6 +19,8 @@ def recupids(table, connection):
 
 def recupvalues(table, fields, connection):
     id = ', '.join([x for x, in fields])
+
+    print("SELECT " + id + " FROM "+table)
     cursor = connection.cursor()
     cursor.execute("SELECT " + id + " FROM "+table)
     results = cursor.fetchall()
