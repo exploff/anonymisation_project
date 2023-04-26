@@ -24,7 +24,10 @@ export class HttpService {
   }
 
   infoTables():Observable<Tables> {
-
+    console.log("######################")
+    console.log(environment.serverAddress)
+    console.log(environment)
+    console.log("######################")
     return this.httpClient.get<Tables>(environment.serverAddress + "/info/tables");
   }
 

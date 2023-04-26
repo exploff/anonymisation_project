@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverAddress: ''
+  serverAddress: 'http://localhost:3000'
 };
